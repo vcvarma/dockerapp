@@ -24,9 +24,7 @@ def all_allowed_branches = []
 
 //pipeline
 pipeline {
-    agent {
-        label 'slave'
-      }
+    agent any
     stages {
         stage ('Git Checkout'){
             steps{
