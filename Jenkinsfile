@@ -24,23 +24,19 @@ def all_allowed_branches = []
 
 //pipeline
 pipeline {
-    agent any
-    tools {
-        go 'go-1.14'
-    }
-    environment {
-        GO111MODULE='on'
-    }
+    agent {
+        label 'slave'
+      }
     stages {
-        // stage ('Git Checkout'){
-        //     steps{
-        //         checkout([$class: 'GitSCM', 
-        //         branches: [[name: "*/${BRANCH_NAME}"]], 
-        //         userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
-        //         ]
-        //         )
-        //     }
-        // }
+        stage ('Git Checkout'){
+            steps{
+                checkout([$class: 'GitSCM', 
+                branches: [[name: "*/${BRANCH_NAME}"]], 
+                userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
+                ]
+                )
+            }
+        }
         // stage ('Docker Build and Push image'){
 
         // }
