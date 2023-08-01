@@ -45,12 +45,12 @@ pipeline {
             ]
             )
         }
-        stage ('Docker Build and Push image'){
+        // stage ('Docker Build and Push image'){
 
-        }
-        stage ('Deployment'){
+        // }
+        // stage ('Deployment'){
 
-        }
+        // }
     }
 }
     
