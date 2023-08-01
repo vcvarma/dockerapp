@@ -35,18 +35,18 @@ pipeline {
                 }
             }
         }
-        stage ('Git Checkout'){
-            when {
-                expression { allowed_branch.contains(BRANCH_NAME) }
-            }
-            steps{
-                checkout([$class: 'GitSCM', 
-                branches: [[name: "*/${BRANCH_NAME}"]], 
-                userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
-                ]
-                )
-            }
-        }
+        // stage ('Git Checkout'){
+        //     when {
+        //         expression { allowed_branch.contains(BRANCH_NAME) }
+        //     }
+        //     steps{
+        //         checkout([$class: 'GitSCM', 
+        //         branches: [[name: "*/${BRANCH_NAME}"]], 
+        //         userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
+        //         ]
+        //         )
+        //     }
+        // }
         // stage ('Docker Build and Push image'){
 
         // }
