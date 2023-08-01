@@ -25,6 +25,12 @@ def all_allowed_branches = []
 //pipeline
 pipeline {
     agent any
+    tools {
+        go 'go-1.14'
+    }
+    environment {
+        GO111MODULE='on'
+    }
     stages {
         // stage ('Git Checkout'){
         //     steps{
