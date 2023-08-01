@@ -26,7 +26,19 @@ def all_allowed_branches = []
 pipeline {
     agent any
     stages {
+        stage ('initialization'){
+            steps{
+                script {
+                    allowed_branch = getAllowedbranches()
+                    branchEnv = getBranchEnv(BRANCH_NAME)
+                    
+                }
+            }
+        }
         stage ('Git Checkout'){
+            when {
+                expression { allowed_branch.contains(BRANCH_NAME) }
+            }
             steps{
                 checkout([$class: 'GitSCM', 
                 branches: [[name: "*/${BRANCH_NAME}"]], 
