@@ -39,11 +39,13 @@ pipeline {
             when {
                 expression { allowed_branch.contains(BRANCH_NAME) }
             }
-            checkout([$class: 'GitSCM', 
-            branches: [[name: "*/${BRANCH_NAME}"]], 
-            userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
-            ]
-            )
+            steps{
+                checkout([$class: 'GitSCM', 
+                branches: [[name: "*/${BRANCH_NAME}"]], 
+                userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
+                ]
+                )
+            }
         }
         // stage ('Docker Build and Push image'){
 
