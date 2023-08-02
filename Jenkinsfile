@@ -19,11 +19,15 @@ pipeline {
             }
         } 
         stage('Build image') {
-            dockerImage = docker.build("charan2616/dockerapp")
+            steps{
+                dockerImage = docker.build("charan2616/dockerapp")
+            }
         }
         stage('Push image') {
-            withDockerRegistry([ credentialsId: "DOCKER_CRED", url: "https://hub.docker.com/" ]) {
+            steps{
+                withDockerRegistry([ credentialsId: "DOCKER_CRED", url: "https://hub.docker.com/" ]) {
                 dockerImage.push()
+                }
             }
         }    
     }
