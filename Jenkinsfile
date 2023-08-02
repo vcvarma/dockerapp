@@ -1,11 +1,13 @@
-//Uses Declarative syntax to run commands inside a container.
+// Uses Declarative syntax to run commands inside a container.
+// def branch = "main"
+// def allowed_branch
 
 
-//Constants
+// Constants
 // APP_NAME = "dockerapp"
 // dockerImageName = "charan2616/dockerapp"
 // GIT_REPOSITORY = ""
-// GIT_CREDENTIALS = "GIT_CRED"
+// GIT_CREDENTIALS = "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"
 
 pipeline {
    agent any
@@ -18,13 +20,35 @@ pipeline {
         }     
     }
 }
+// String getBranchEnv(String branch_name) {
+//    return env_branch.find{(it.value).contains(branch_name)}?.key
+// }
 
+// List<String> getAllowedbranches() {
+// def all_allowed_branches = []
+//   env_branch.each{ k,v ->
+//     all_allowed_branches.addAll(v)
+//   }
+//   return all_allowed_branches
+// } 
 
 // //pipeline
 // pipeline {
 //     agent any
 //     stages {
+//         stage ('initialization'){
+//             steps{
+//                 script {
+//                     allowed_branch = getAllowedbranches()
+//                     branchEnv = getBranchEnv(BRANCH_NAME)
+                    
+//                 }
+//             }
+//         }
 //         stage ('Git Checkout'){
+//             when {
+//                 expression { allowed_branch.contains(BRANCH_NAME) }
+//             }
 //             steps{
 //                 checkout([$class: 'GitSCM', 
 //                 branches: [[name: "*/${BRANCH_NAME}"]], 
