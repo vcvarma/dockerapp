@@ -1,34 +1,24 @@
 // Uses Declarative syntax to run commands inside a container.
-def branch = "main"
-def allowed_branch
+// def branch = "main"
+// def allowed_branch
 
 
 // Constants
-APP_NAME = "dockerapp"
-dockerImageName = "charan2616/dockerapp"
-GIT_REPOSITORY = ""
-GIT_CREDENTIALS = "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"
+// APP_NAME = "dockerapp"
+// dockerImageName = "charan2616/dockerapp"
+// GIT_REPOSITORY = ""
+// GIT_CREDENTIALS = "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"
 
 pipeline {
-    agent any
-    stages {
-        stage('clone repo') {
+   agent any
+   stages {
+        stage('Checkout') {
             steps {
-
-                withCredentials(usernamePassword(credentialsId :jenkins-user-github ,passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME' )){
-                // Get some code from a GitHub repository
-                bat("""
-                git config --global credential.username {GIT_USERNAME}
-                git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
-                git clone https://github.com/vcvarma/dockerapp.git
-
-                echo "pulled the code"
-                """)
-                }      
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GIT_CRED', url: 'https://github.com/vcvarma/dockerapp.git']]])
+                sh "ls -lart ./*"
             }
-        }
+        }     
     }
-
 }
 // String getBranchEnv(String branch_name) {
 //    return env_branch.find{(it.value).contains(branch_name)}?.key
