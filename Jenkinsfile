@@ -17,9 +17,18 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GIT_CRED', url: 'https://github.com/vcvarma/dockerapp.git']]])
                 sh "ls -lart ./*"
             }
-        }     
+        } 
+        stage('Build image') {
+            dockerImage = docker.build("charan2616/dockerapp")
+        }
+        stage('Push image') {
+            withDockerRegistry([ credentialsId: "DOCKER_CRED", url: "https://hub.docker.com/" ]) {
+                dockerImage.push()
+            }
+        }    
     }
 }
+
 // String getBranchEnv(String branch_name) {
 //    return env_branch.find{(it.value).contains(branch_name)}?.key
 // }
