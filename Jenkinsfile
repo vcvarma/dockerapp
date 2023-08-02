@@ -6,53 +6,73 @@ def allowed_branch
 // Constants
 APP_NAME = "dockerapp"
 dockerImageName = "charan2616/dockerapp"
-GIT_REPOSITORY = "git@github.com:vcvarma/dockerapp.git"
+GIT_REPOSITORY = ""
 GIT_CREDENTIALS = "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"
 
-
-String getBranchEnv(String branch_name) {
-   return env_branch.find{(it.value).contains(branch_name)}?.key
-}
-
-List<String> getAllowedbranches() {
-def all_allowed_branches = []
-  env_branch.each{ k,v ->
-    all_allowed_branches.addAll(v)
-  }
-  return all_allowed_branches
-} 
-
-//pipeline
 pipeline {
     agent any
     stages {
-        stage ('initialization'){
-            steps{
-                script {
-                    allowed_branch = getAllowedbranches()
-                    branchEnv = getBranchEnv(BRANCH_NAME)
-                    
-                }
+        stage('clone repo') {
+            steps {
+
+                withCredentials(usernamePassword(credentialsId :jenkins-user-github ,passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME' )){
+                // Get some code from a GitHub repository
+                bat("""
+                git config --global credential.username {GIT_USERNAME}
+                git config --global credential.helper "!echo password={GIT_PASSWORD}; echo"
+                git clone https://github.com/vcvarma/dockerapp.git
+
+                echo "pulled the code"
+                """)
+                }      
             }
         }
-        stage ('Git Checkout'){
-            when {
-                expression { allowed_branch.contains(BRANCH_NAME) }
-            }
-            steps{
-                checkout([$class: 'GitSCM', 
-                branches: [[name: "*/${BRANCH_NAME}"]], 
-                userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
-                ]
-                )
-            }
-        }
-        // stage ('Docker Build and Push image'){
-
-        // }
-        // stage ('Deployment'){
-
-        // }
     }
+
 }
+// String getBranchEnv(String branch_name) {
+//    return env_branch.find{(it.value).contains(branch_name)}?.key
+// }
+
+// List<String> getAllowedbranches() {
+// def all_allowed_branches = []
+//   env_branch.each{ k,v ->
+//     all_allowed_branches.addAll(v)
+//   }
+//   return all_allowed_branches
+// } 
+
+// //pipeline
+// pipeline {
+//     agent any
+//     stages {
+//         stage ('initialization'){
+//             steps{
+//                 script {
+//                     allowed_branch = getAllowedbranches()
+//                     branchEnv = getBranchEnv(BRANCH_NAME)
+                    
+//                 }
+//             }
+//         }
+//         stage ('Git Checkout'){
+//             when {
+//                 expression { allowed_branch.contains(BRANCH_NAME) }
+//             }
+//             steps{
+//                 checkout([$class: 'GitSCM', 
+//                 branches: [[name: "*/${BRANCH_NAME}"]], 
+//                 userRemoteConfigs: [[credentialsId: GIT_CREDENTIALS, url: GIT_REPOSITORY]]
+//                 ]
+//                 )
+//             }
+//         }
+//         // stage ('Docker Build and Push image'){
+
+//         // }
+//         // stage ('Deployment'){
+
+//         // }
+//     }
+// }
     
