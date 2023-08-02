@@ -1,9 +1,7 @@
-Uses Declarative syntax to run commands inside a container.
-def branch = "main"
-def allowed_branch
+//Uses Declarative syntax to run commands inside a container.
 
 
-Constants
+//Constants
 APP_NAME = "dockerapp"
 dockerImageName = "charan2616/dockerapp"
 GIT_REPOSITORY = ""
