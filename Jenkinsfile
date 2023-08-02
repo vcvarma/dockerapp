@@ -20,7 +20,7 @@ pipeline {
         } 
         stage('Build image') {
             steps{
-                dockerImage = docker.build("charan2616/dockerapp")
+                dockerImage = sh "docker build -t charan2616/dockerapp"
             }
         }
         stage('Push image') {
