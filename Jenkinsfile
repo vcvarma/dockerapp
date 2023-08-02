@@ -7,7 +7,7 @@ Constants
 APP_NAME = "dockerapp"
 dockerImageName = "charan2616/dockerapp"
 GIT_REPOSITORY = ""
-GIT_CREDENTIALS = "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"
+GIT_CREDENTIALS = "GIT_CRED"
 
 // pipeline {
 //    agent any
