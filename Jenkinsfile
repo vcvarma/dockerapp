@@ -20,13 +20,13 @@ pipeline {
         } 
         stage('Build image') {
             steps{
-                dockerImage = sh(script: "docker build -t charan2616/dockerapp")
+                sh "docker build -t charan2616/dockerapp"
             }
         }
         stage('Push image') {
             steps{
                 withDockerRegistry([ credentialsId: "DOCKER_CRED", url: "https://hub.docker.com/" ]) {
-                dockerImage.push()
+                sh 'docker push charan2616/dockerapp'
                 }
             }
         }    
